@@ -1,0 +1,12 @@
+<?php
+
+/* Edit and copy to config.inc! */
+
+$ADMINUSER = 'admin';
+$ADMINPASS = 'password';
+$MYSQL_HOST = 'localhost';
+$MYSQL_USER = 'root';
+$MYSQL_PASS = 'password';
+
+
+?>
