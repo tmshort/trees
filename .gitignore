@@ -1,2 +1,11 @@
 config.inc
 *~
+\#*
+.#*
+cscope.*
+*.o
+*.obj
+*.d
+*.a
+*.so
+*.sa
