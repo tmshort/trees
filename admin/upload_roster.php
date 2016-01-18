@@ -1,8 +1,10 @@
 <?php
 include "auth.inc";
 include "../mysql.php";
-require_once "Classes/PHPExcel.php";
 include "password.php";
+require __DIR__ . "/../vendor/autoload.php";
+use PHPExcel;
+use PHPExclIOFactory;
 ?><html>
 <head>
 <title>Upload Roster</title>

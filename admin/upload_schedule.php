@@ -2,7 +2,9 @@
 include "auth.inc";
 include "../mysql.php";
 include "../shifttypes.php";
-require_once "Classes/PHPExcel.php";
+require __DIR__ . "/../vendor/autoload.php";
+use PHPExcel;
+use PHPExclIOFactory;
 ?><html>
 <head>
 <title>Upload Tree Schedule</title>
