@@ -3,7 +3,7 @@ include "auth.inc";
 include "../mysql.php";
 include "../shifttypes.php";
 include "../analyze.php";
-include "Classes/svcpie/svcpie.php";
+include "svcpie.php";
 ?><html>
 <head>
 <title>Tree Scheduling Admin</title>
