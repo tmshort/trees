@@ -1,0 +1,13 @@
+<Files readme.md>
+order deny,allow
+deny from all
+</Files>
+<Files composer.*>
+order deny,allow
+deny from all
+</Files>
+<Files vendor>
+order deny,allow
+deny from all
+</Files>
+IndexIgnore *
