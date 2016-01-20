@@ -43,31 +43,6 @@ $middays = 0;
 $nonsales = 0;
 $totalscouts = 0;
 $totaladults = 0;
-$ourtroop = 60;
-
-$troopdata["adults60"] = 0;
-$troopdata["scouts60"] = 0;
-$troopdata["shifts60"] = 0;
-$troopdata["setup60"] = 0;
-$troopdata["sales60"] = 0;
-
-$troopdata["adults61"] = 0;
-$troopdata["scouts61"] = 0;
-$troopdata["shifts61"] = 0;
-$troopdata["setup61"] = 0;
-$troopdata["sales61"] = 0;
-
-$troopdata["adults63"] = 0;
-$troopdata["scouts63"] = 0;
-$troopdata["shifts63"] = 0;
-$troopdata["setup63"] = 0;
-$troopdata["sales63"] = 0;
-
-$troopdata["adults1776"] = 0;
-$troopdata["scouts1776"] = 0;
-$troopdata["shifts1776"] = 0;
-$troopdata["setup1776"] = 0;
-$troopdata["sales1776"] = 0;
 
 $troopdata["adults"] = 0;
 $troopdata["scouts"] = 0;
@@ -103,29 +78,46 @@ if (!empty($file) && !empty($sheet)) {
   for ($row = 1; $row <= $highestRow; $row++) {
     $shift = $objWorksheet->getCell('A' . $row)->getValue();
     if ($shift > 0) {
+
+      // gather stats
       $adults = $objWorksheet->getCell('G' . $row)->getValue();
       $scouts = $objWorksheet->getCell('H' . $row)->getValue();
       $troop  = $objWorksheet->getCell('I' . $row)->getValue();
+      $troops[$troop] = $troop;
+      if (!isset($troopdata["shifts" . $troop])) {
+        $troopdata["shifts" . $troop] = 0;
+      }
       $troopdata["shifts" . $troop]++;
+      if (!isset($troopdata["adults" . $troop])) {
+        $troopdata["adults" . $troop] = 0;
+      }
       $troopdata["adults" . $troop] += $adults;
+      if (!isset($troopdata["scouts" . $troop])) {
+        $troopdata["scouts" . $troop] = 0;
+      }
       $troopdata["scouts" . $troop] += $scouts;
       if ($shift >= 100) {
+	if (!isset($troopdata["setup" . $troop])) {
+          $troopdata["setup" . $troop] = 0;
+        }
 	$troopdata["setup" . $troop]++;
 	$troopdata["setup"]++;
       } else {
+	if (!isset($troopdata["sales" . $troop])) {
+	  $troopdata["sales" . $troop] = 0;
+        }
 	$troopdata["sales" . $troop]++;
 	$troopdata["sales"]++;
       }
       $troopdata["shifts"]++;
       $troopdata["adults"] += $adults;
       $troopdata["scouts"] += $scouts;
-      if ($troop != $ourtroop) {
-	continue;
-      }
 
       $index++;
+
       // sales
       $sheetdata[$index]['shift'] = $shift;
+      $sheetdata[$index]['troop'] = $troop;
       $sheetdata[$index]['dow'] = $dow = $objWorksheet->getCell('B' . $row)->getValue();
       $date = $objWorksheet->getCell('C' . $row)->getValue();
       $d = new DateTime('1899-12-30');
@@ -172,7 +164,7 @@ if (!empty($file) && !empty($cash)) {
   // Big assumption
   // A = shift number
   // B = Date
-  // C = Unit
+  // C = Troop/Crew/Unit
   // D = Opener 
   // E = Phone
   // F = Closer
@@ -184,21 +176,24 @@ if (!empty($file) && !empty($cash)) {
   
   for ($row = 1; $row <= $highestRow; $row++) {
     $shift = $objWorksheet->getCell('A' . $row)->getValue();
-    $unit = $objWorksheet->getCell('C' . $row)->getValue();
-    if ($shift > 0 && $unit == 60) {
+    $troop = $objWorksheet->getCell('C' . $row)->getValue();
+    if ($shift > 0 && $unit > 0) {
       $index+=2;
       // sales
       $sheetdata[$index]['shift'] = $shift + 1000;
+      $sheetdata[$index]['troop'] = $troop;
       $sheetdata[$index+1]['shift'] = $shift + 2000;
+      $sheetdata[$index+1]['troop'] = $troop;
       // This date could be in the past, all we care about is month/day
       $date = $objWorksheet->getCell('B' . $row)->getValue();
       $d = new DateTime('1899-12-30');
       $d->add(new DateInterval('P' . $date . 'D'));
       $date = $sheetdata[$index+1]['date'] = $sheetdata[$index]['date'] = $d->format("Y-m-d");
       $tm = localtime(strtotime($date), TRUE);
+      /* TOTAL ESTIMATES!!!! - MAY NEED TO TWEEK DATA*/
       if ($tm['tm_wday'] == 0) { /* Sun */
 	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "9:00";
-	$sheetdata[$index+1]['start'] = $sheetdata[$index+1]['end'] = "18:30";
+	$sheetdata[$index+1]['start'] = $sheetdata[$index+1]['end'] = "19:00";
       } else if ($tm['tm_wday'] == 6) { /* Sat */
 	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "9:00";
 	$sheetdata[$index+1]['start'] = $sheetdata[$index+1]['end'] = "21:00";
@@ -241,22 +236,22 @@ print "<pre>\n";
 print_r($troopdata);
 print_r($sheetdata);
 print "</pre>\n";
-print_stats(60, $troopdata);
-print_stats(61, $troopdata);
-print_stats(63, $troopdata);
-print_stats(1776, $troopdata);
+foreach ($troops as $key => $value) {
+    print_stats($key, $troopdata);
+}
 $mysqli = db_connect();
 if ($mysqli === FALSE) {
   print "<b>Unable to load database</b><br/>\n";
 }
 foreach($sheetdata as $key => $value) {
-  $query = "INSERT INTO shifts (id, start, end, description, scouts, adults, type) VALUES (";
+  $query = "INSERT INTO shifts (id, start, end, description, scouts, adults, troop, type) VALUES (";
   $query .= $value['shift'] . ", ";
   $query .= "'" . $value['date'] . " " . $value['start'] . "', ";
   $query .= "'" . $value['date'] . " " . $value['end'] . "', ";
   $query .= "'" . $value['desc'] . "', ";
   $query .= $value['scouts'] . ", ";
   $query .= $value['adults'] . ", ";
+  $query .= $value['troop'] . ", ";
   $query .= $value['type'] . ");"; 
   print "QUERY: $query<br/>\n";
   if ($mysqli->query($query) === FALSE) {

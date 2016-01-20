@@ -45,15 +45,16 @@ if (!empty($file)) {
   // A = Scout last name**
   // B = Scout first name**
   // C = Grade = 5 - 12 (anything else, ignore)**
-  // D = Scout Email
-  // E = Address
-  // F = Home Phone
-  // G = Primary Parent**
-  // H = Primary Parent Cell
-  // I = Primary Parent Email**
-  // J = Secondary Parent
-  // K = Secondary Parent Cell
-  // L = Secondary Parent Email
+  // D = Troop
+  // E = Scout Email
+  // F = Address
+  // G = Home Phone
+  // H = Primary Parent**
+  // I = Primary Parent Cell
+  // J = Primary Parent Email**
+  // K = Secondary Parent
+  // L = Secondary Parent Cell
+  // M = Secondary Parent Email
   // ** means required information
   //    Key for anything would be ScoutLastName.ScoutFirstName
   //    Also need parents info, to indicate number of families
@@ -68,25 +69,31 @@ if (!empty($file)) {
     if ($GRADE_MIN <= $grade && $grade <= $GRADE_MAX) {
       $lastname = $objWorksheet->getCell('A' . $row)->getValue();
       $firstname = $objWorksheet->getCell('B' . $row)->getValue();
-      $parent = $objWorksheet->getCell('G' . $row)->getValue();
-      $email = $objWorksheet->getCell('I' . $row)->getValue();
-      $email2 = $objWorksheet->getCell('L' . $row)->getValue();
-      $email3 = $objWorksheet->getCell('D' . $row)->getValue();
+      $troop = $objWorksheet->getCell('D' . $row)->getValue();
+      $parent = $objWorksheet->getCell('H' . $row)->getValue();
+      $email = $objWorksheet->getCell('J' . $row)->getValue();
+      $email2 = $objWorksheet->getCell('M' . $row)->getValue();
+      $email3 = $objWorksheet->getCell('E' . $row)->getValue();
       if (!empty($firstname) && !empty($lastname) && !empty($parent) && !empty($email)) {
-	$key = "$lastname|$firstname";
+	$key = "$lastname|$firstname|$troop";
 	$scout[$key]['name'] = "$firstname $lastname";
 	$scout[$key]['fname'] = $firstname;
 	$scout[$key]['parent'] = $parent;
 	$scout[$key]['email'] = $email;
+	$scout[$key]['troop'] = $troop;
 	$scouts[] = $key;
 	$parents[$email]['name'] = $parent;
 	$parents[$email]['password'] = generatePassword(32);
-	$emails[$email] = $email;
+	$parents[$email]['troop'] = $troop;
+	$emails[$email]['mail'] = $email;
+	$emails[$email]['troop'] = $troop;
         if (!empty($email2)) {
-	  $emails[$email2] = $email;
+	  $emails[$email2]['email'] = $email;
+	  $emails[$email2]['troop'] = $troop;
 	}
         if (!empty($email3)) {
-	  $emails[$email3] = $email;
+	  $emails[$email3]['email'] = $email;
+	  $emails[$email3]['troop'] = $troop;
 	}
       }
     }
@@ -111,10 +118,11 @@ if ($mysqli === FALSE) {
 
 print "<b>Loading scouts...</b><br/>\n";
 foreach ($scout as $key => $value) {
-  $query = "INSERT INTO scouts (sname, fname, pname, email) VALUES (";
+  $query = "INSERT INTO scouts (sname, fname, pname, troo, email) VALUES (";
   $query .= "'" . $mysqli->escape_string($value['name']) . "', ";
   $query .= "'" . $mysqli->escape_string($value['fname']) . "', ";
   $query .= "'" . $mysqli->escape_string($value['parent']) . "', ";
+  $query .= "'" . $mysqli->escape_string($value['troop']) . "', ";
   $query .= "'" . $mysqli->escape_string(strtolower($value['email'])) . "')";
   print "QUERY: " . htmlentities($query) . "<br/>\n";
   if ($mysqli->query($query) === FALSE) {
@@ -124,9 +132,10 @@ foreach ($scout as $key => $value) {
 
 print "<b>Loading parents...</b><br/>\n";
 foreach ($parents as $key => $value) {
-  $query = "INSERT INTO parents (pname, email, password) VALUES (";
+  $query = "INSERT INTO parents (pname, email, troop, password) VALUES (";
   $query .= "'" . $mysqli->escape_string($value['name']) . "', ";
   $query .= "'" . $mysqli->escape_string(strtolower($key)) . "', ";
+  $query .= "'" . $mysqli->escape_string(strtolower($value['troop'])) . "', ";
   $query .= "'" . $mysqli->escape_string($value['password']) . "')";
   print "QUERY: " . htmlentities($query) . "<br/>\n";
   if ($mysqli->query($query) === FALSE) {
@@ -136,8 +145,9 @@ foreach ($parents as $key => $value) {
 
 print "<b>Loading emails...</b><br/>\n";
 foreach ($emails as $key => $value) {
-  $query = "INSERT INTO emails (pemail, email) VALUES (";
-  $query .= "'" . $mysqli->escape_string(strtolower($value)) . "', ";
+  $query = "INSERT INTO emails (pemail, troop, email) VALUES (";
+  $query .= "'" . $mysqli->escape_string(strtolower($value['email'])) . "', ";
+  $query .= "'" . $mysqli->escape_string(strtolower($value['troop'])) . "', ";
   $query .= "'" . $mysqli->escape_string(strtolower($key)) . "')";
   print "QUERY: " . htmlentities($query) . "<br/>\n";
   if ($mysqli->query($query) === FALSE) {

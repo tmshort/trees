@@ -78,7 +78,7 @@ if (($result = $mysqli->query($query)) !== FALSE) {
   $result->close();
 }
 
-$query = "SELECT * FROM shifts";
+$query = "SELECT * FROM shifts WHERE troop = '$TROOP'";
 if (($result = $mysqli->query($query)) === FALSE) {
   print "<b>Error retrieving shifts</b><br/>\n";
 } else {

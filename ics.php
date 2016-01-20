@@ -47,7 +47,7 @@ $mysqli = db_connect();
 if ($mysqli === FALSE) {
   print "<b>Error connecting to database</b><br/>\n";
 }
-$query = "SELECT * FROM shifts";
+$query = "SELECT * FROM shifts WHERE troop = '$TROOP'";
 if (($result = $mysqli->query($query)) === FALSE) {
   print "<b>Error retrieving shifts</b><br/>\n";
 } else {

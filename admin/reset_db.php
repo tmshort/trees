@@ -41,37 +41,37 @@ if ($_POST["force"]) {
     print "<b>" . $mysqli->error . "</b>";
   }
 
-  if ($mysqli->query("CREATE TABLE scouts (id MEDIUMINT NOT NULL AUTO_INCREMENT, sname VARCHAR(64) NOT NULL, fname VARCHAR(64) NOT NULL, pname VARCHAR(64) NOT NULL, email VARCHAR(64) NOT NULL, PRIMARY KEY (id));") === FALSE) {
+  if ($mysqli->query("CREATE TABLE scouts (id MEDIUMINT NOT NULL AUTO_INCREMENT, sname VARCHAR(64) NOT NULL, fname VARCHAR(64) NOT NULL, pname VARCHAR(64) NOT NULL, email VARCHAR(64) NOT NULL, troop MEDIUMINT NOT NULL, PRIMARY KEY (id));") === FALSE) {
     print "<b>Failed to create table scouts " . $mysqli->error . "</b>\n";
     exit;
   }
 
-  if ($mysqli->query("CREATE TABLE parents (id MEDIUMINT NOT NULL AUTO_INCREMENT, pname VARCHAR(64), password VARCHAR(64), email VARCHAR(64), do_not_nag TINYINT DEFAULT 0 NOT NULL, PRIMARY KEY (id));") === FALSE) {
+  if ($mysqli->query("CREATE TABLE parents (id MEDIUMINT NOT NULL AUTO_INCREMENT, pname VARCHAR(64), password VARCHAR(64), email VARCHAR(64), troop MEDIUMINT NOT NULL, do_not_nag TINYINT DEFAULT 0 NOT NULL, PRIMARY KEY (id));") === FALSE) {
     print "<b>Failed to create table parents " . $mysqli->error . "</b>\n";
     exit;
   }
 
-  if ($mysqli->query("CREATE TABLE emails (id MEDIUMINT NOT NULL AUTO_INCREMENT, pemail VARCHAR(64), email VARCHAR(64), PRIMARY KEY (id));") === FALSE) {
+  if ($mysqli->query("CREATE TABLE emails (id MEDIUMINT NOT NULL AUTO_INCREMENT, pemail VARCHAR(64), email VARCHAR(64), troop MEDIUMINT NOT NULL, PRIMARY KEY (id));") === FALSE) {
     print "<b>Failed to create table emails " . $mysqli->error . "</b>\n";
     exit;
   }
 
-  if ($mysqli->query("CREATE TABLE shifts (id MEDIUMINT NOT NULL, start DATETIME, end DATETIME, description VARCHAR(64), scouts SMALLINT, adults SMALLINT, type TINYINT, PRIMARY KEY(id));") === FALSE) {
+  if ($mysqli->query("CREATE TABLE shifts (id MEDIUMINT NOT NULL, start DATETIME, end DATETIME, description VARCHAR(64), scouts SMALLINT, adults SMALLINT, type TINYINT, troop MEDIUMINT NOT NULL, PRIMARY KEY(id));") === FALSE) {
     print "<b>Failed to create table shifts " . $mysqli->error . "</b>\n";
     exit;
   }
 
-  if ($mysqli->query("CREATE TABLE scout_shifts (shiftid MEDIUMINT NOT NULL, scoutid MEDIUMINT NOT NULL);") === FALSE) {
+  if ($mysqli->query("CREATE TABLE scout_shifts (shiftid MEDIUMINT NOT NULL, scoutid MEDIUMINT NOT NULL, troop MEDIUMINT NOT NULL);") === FALSE) {
     print "<b>Failed to create table parent_shifts " . $mysqli->error . "</b>\n";
     exit;
   }
 
-  if ($mysqli->query("CREATE TABLE parent_shifts (shiftid MEDIUMINT NOT NULL, parentid MEDIUMINT NOT NULL);") === FALSE) {
+  if ($mysqli->query("CREATE TABLE parent_shifts (shiftid MEDIUMINT NOT NULL, parentid MEDIUMINT NOT NULL, troop MEDIUMINT NOT NULL);") === FALSE) {
     print "<b>Failed to create table parent_shifts " . $mysqli->error . "</b>\n";
     exit;
   }
 
-  if ($mysqli->query("CREATE TABLE snow_shifts (shiftid MEDIUMINT NOT NULL, parentid MEDIUMINT NOT NULL);") === FALSE) {
+  if ($mysqli->query("CREATE TABLE snow_shifts (shiftid MEDIUMINT NOT NULL, parentid MEDIUMINT NOT NULL, troop MEDIUMINT NOT NULL);") === FALSE) {
     print "<b>Failed to create table snow_shifts " . $mysqli->error . "</b>\n";
     exit;
   }

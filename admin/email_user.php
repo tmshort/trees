@@ -2,7 +2,7 @@
 ini_set('sendmail_from', 'troop60trees@gmail.com');
 date_default_timezone_set("America/New_York");
 
-function send_the_email($pname, $password, $email, $dirname, $orig_email = "")
+function send_the_email($pname, $password, $troop, $email, $dirname, $orig_email = "")
 {
   global $START;
   $stats = analyze();
@@ -40,7 +40,7 @@ function send_the_email($pname, $password, $email, $dirname, $orig_email = "")
   $message .= "including Eagle members, are required to serve the required number of shifts. Remember, <b><i>Tree Sales are fun!</i></b></p>\n";
   
   $message .= "<p>We will using the same online system as last year for scheduling tree sales. I have developed a website that is specifically designed for ";
-  $message .= "Troop 60's sales schedules. Your <i>personalized</i> link is at the bottom of this email. Please do not email me asking for the schedule in email ";
+  $message .= "Unit $troop's sales schedules. Your <i>personalized</i> link is at the bottom of this email. Please do not email me asking for the schedule in email ";
   $message .= "or send your shift requests via email. Shift assignments fill up very quickly, so please go to the site shortly after it ";
   $message .= "goes live.</p>\n";
 
@@ -88,9 +88,10 @@ function send_the_email($pname, $password, $email, $dirname, $orig_email = "")
   $message .= "<p><b>Note:</b></p>\n";
   $message .= "<ul>";
   $message .= "<li>There is no password to the site.</li>";
+  $message .= "<li>The avove link is for Unit $troop. If you belong to more than one Uint you will receive multiple emails.</li>";
   $message .= "<li>The link above is unique for your family. Please do not share this link with anyone outside your family, as it will give them access to your schedule.</li>";
   $message .= "<li>Your schedule is <b>not</b> emailed to you; it is available at the link above.</li>";
-  $message .= "<li>The website does not enforce any limitations on the number of shifts you choose. If you choose too few or too many, the website will tell you.</li>";
+  $message .= "<li>The website does not enforce any limitations on the number of shifts you choose. But, if you choose too few or too many, the website will tell you.</li>";
   $message .= "<li>If you do not sign up for enough shifts, you will get nag emails until you do.</li>";
   $message .= "</ul>";
 

@@ -36,7 +36,8 @@ if ($error == 0) {
 }
 if (isset($PARENT)) {
   $email = $mysqli->escape_string($PARENT['email']);
-  $query = "SELECT * FROM scouts WHERE email = '$email'";
+  $TROOP = $mysqli->escape_string($PARENT['troop']);
+  $query = "SELECT * FROM scouts WHERE email = '$email' AND teoop = '$troop'";
   if (($result = $mysqli->query($query)) === FALSE) {
     $error = 4;
   }

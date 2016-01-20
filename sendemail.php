@@ -45,9 +45,11 @@ if (isset($_POST['email'])) {
     }
     $query = "SELECT * FROM parents WHERE email = '$email'";
     if (($result = $mysqli->query($query)) !== FALSE) {
-      if (($arr = $result->fetch_array())) {
-	send_the_email($arr['pname'], $arr['password'], $email, $dirname, $theemail);
-      } else {
+      $count = 0;
+      while (($arr = $result->fetch_array())) {
+	send_the_email($arr['pname'], $arr['password'], $arr['troop'], $email, $dirname, $theemail);
+      }
+      if ($count == 0) {
 	error_log("No match on $email?");
       }
     } else {

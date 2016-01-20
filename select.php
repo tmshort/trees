@@ -77,7 +77,7 @@ if (($result = $mysqli->query($query)) !== FALSE) {
   $result->close();
 }
 
-$query = "SELECT * FROM shifts";
+$query = "SELECT * FROM shifts WHERE troop = '$TROOP'";
 if (($result = $mysqli->query($query)) === FALSE) {
   print "<b>Error retrieving shifts</b><br/>\n";
   error_log("Error retrieving shifts");;
@@ -256,7 +256,7 @@ if (isset($_POST['submit'])) {
 	  foreach ($scout_shifts as $scoutid => $value) {
             foreach ($value as $shiftid => $one) {
 	      if (!isset($scout_shifts_in_db[$scoutid][$shiftid])) {
-		$query = "INSERT INTO scout_shifts (shiftid, scoutid) VALUES ($shiftid, $scoutid);";
+		$query = "INSERT INTO scout_shifts (shiftid, scoutid, troop) VALUES ($shiftid, $scoutid, $TROOP);";
 		//print "QUERY: $query<br>\n";
 		if ($mysqli->query($query) == FALSE) {
 		  $errors .= "INSERT scout_shifts failed<br>";
@@ -284,7 +284,7 @@ if (isset($_POST['submit'])) {
 	if (isset($parent_shifts)) {
 	  foreach ($parent_shifts as $shiftid => $one) {
             if (!isset($parent_shifts_in_db[$shiftid])) {
-	      $query = "INSERT INTO parent_shifts (shiftid, parentid) VALUES ($shiftid, $parentid);";
+	      $query = "INSERT INTO parent_shifts (shiftid, parentid, troop) VALUES ($shiftid, $parentid, $TROOP);";
 	      //print "QUERY: $query<br>\n";
 	      if ($mysqli->query($query) == FALSE) {
 		$errors .= "INSERT parent_shifts failed<br>";
@@ -309,7 +309,7 @@ if (isset($_POST['submit'])) {
 	if (isset($snow_shifts)) {
 	  foreach ($snow_shifts as $shiftid => $one) {
             if (!isset($snow_shifts_in_db[$shiftid])) {
-	      $query = "INSERT INTO snow_shifts (shiftid, parentid) VALUES ($shiftid, $parentid);";
+	      $query = "INSERT INTO snow_shifts (shiftid, parentid, troop) VALUES ($shiftid, $parentid, $TROOP);";
 	      //print "QUERY: $query<br>\n";
 	      if ($mysqli->query($query) == FALSE) {
 		$errors .= "INSERT snow_shifts failed<br>";

@@ -46,7 +46,7 @@ if ($mysqli !== FALSE) {
     $query = "SELECT email FROM emails WHERE pemail = '" . $parent['email'] . "';";
     if (($result = $mysqli->query($query)) !== FALSE) {
       while ($arr = $result->fetch_array()) {
-	send_the_email($parent['pname'], $parent['password'], $arr['email'], $dirname);
+	send_the_email($parent['pname'], $parent['password'], $parent['troop'], $arr['email'], $dirname);
 	$n++;
 	print "$n. Sending mail to " . $parent['pname'] . " (" . $arr['email'] . ")<br/>\n";
       }

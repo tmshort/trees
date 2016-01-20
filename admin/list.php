@@ -22,7 +22,7 @@ if ($mysqli === FALSE) {
 $query = "SELECT * FROM parents";
 if (($result = $mysqli->query($query)) !== FALSE) {
   while ($row = $result->fetch_array()) {
-    print "<li><a href='../home.php/" . $row['password'] . "?ADMIN'>" . $row['pname'] . "</a></li>";
+    print "<li><a href='../home.php/" . $row['password'] . "?ADMIN'>" . $row['pname'] . "</a> Unit " . $row['troop'] . "</li>";
   }
   $result->close();
 }
