@@ -12,6 +12,8 @@ include "../mysql.php";
 <div class="col1">
 <h2><a href="index.php">Admin</a> &gt; Database</h2>
 <h3>Upload Schedule</h3>
+<p>Row 1 = Title, no blank rows<br>
+Col A = shift number, B = Day of Week, C = Date, D = Start time, E = end time, F = Type, G = # of adults, H = # of scouts, I = Troop/Crew</p>
 <form action="upload_schedule.php" method="post" enctype="multipart/form-data">
 <label for="file">Schedule (.xls)</label>
 <input type="file" name="file" id="file"><br />
@@ -23,6 +25,7 @@ include "../mysql.php";
 </form>
 
 <h3>Upload Roster</h3>
+<p>A = Last**, B = First**, C = Grade**, D = Email, E = Address, F = Home Phone, G = Primary Parent**, H = Cell, I = Email**, J = Secondary Parent, K = Cell, L = Email, ** = required</p> 
 <form action="upload_roster.php" method="post" enctype="multipart/form-data">
 <label for="file">Roster (.xls)</label>
 <input type="file" name="file" id="file"><br />
