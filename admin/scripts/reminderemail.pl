@@ -11,6 +11,8 @@ my $db="trees";
 my $user="root";
 my $pass="Troop60Trees";
 my $host="localhost";
+my $scheduler="Todd Short";
+my $debug = 0;
 
 my $dbh = DBI->connect("DBI:mysql:$db:$host", $user, $pass);
 
@@ -18,11 +20,10 @@ my @tomorrow = localtime(time() + 24 * 60 * 60);
 my $start = strftime("%F 00:00:01", @tomorrow);
 my $end = strftime("%F 23:59:59", @tomorrow);
 
-##
-## TEMPOARARY!!!!!!!
-##
-## $start = "2013-11-16 00:00:01";
-## $end = "2013-11-16 23:59:59";
+if ($debug == 1) {
+    $start = "2016-11-20 00:00:01";
+    $end = "2016-11-30 23:59:59";
+}
 
 print "START: $start to $end\n";
 
@@ -121,15 +122,22 @@ $body .= "* $forecast1: $forecast2\n* $forecast3: $forecast4\n";
 $body .= "4. Please visit https://www.treesale.christmas/instructions.php for information on your shift.\n";
 $body .= "\n";
 $body .= $output;
-$body .= "Thank you for supporting Troop 60!\n\n-Todd Short\n-Troop 60 Scheduler\n";
+$body .= "Thank you for supporting Troop 60!\n\n-$scheduler\n-Troop 60 Scheduler\n";
 
+my $from = $scheduler . ' <troop60trees@gmail.com>';
 my %message = (
     To      => $to,
-    From    => 'Todd Short <troop60trees@gmail.com>',
+    From    => $from,
     Subject => $subject,
     Message => $body,
     );
 
+if ($debug == 1) {
+    print "To: $to\n";
+    print "From: $from\n";
+    print "Subject: $subject\n";
+    print "Message: $body\n";
+}
 sendmail(%message) or die $Mail::Sendmail::error;
 print "\nLog: " . $Mail::Sendmail::log . "\n";
 print "To: $to\n";
