@@ -74,10 +74,12 @@ if (!empty($file) && !empty($sheet)) {
   // I = Troop/Crew
 
   $highestRow = $objWorksheet->getHighestRow();
+  print "<tr><td colspan=5>ROWS = $highestRow</td></tr>\n";
   
   for ($row = 1; $row <= $highestRow; $row++) {
     $shift = $objWorksheet->getCell('A' . $row)->getValue();
-    if ($shift > 0) {
+    $dow = $objWorksheet->getCell('B' . $row)->getValue();
+    if ($shift > 0 && !empty($dow)) {
 
       // gather stats
       $adults = $objWorksheet->getCell('G' . $row)->getValue();

@@ -1,7 +1,7 @@
 <?php
-include "/var/www/walters-short/html/trees/mysql.php";
-include "/var/www/walters-short/html/trees/shifttypes.php";
-include "/var/www/walters-short/html/trees/analyze.php";
+include "/var/www/trees/mysql.php";
+include "/var/www/trees/shifttypes.php";
+include "/var/www/trees/analyze.php";
 $LIMITS = analyze();
 ini_set('sendmail_from', 'troop60trees@gmail.com');
 date_default_timezone_set("America/New_York");
