@@ -150,7 +150,7 @@ foreach ($parents as $parentid => $parent) {
     print "<td style='color:green'>GOOD";
   } else if ($numshifts >= ($LIMITS['spp'] * $CASH_VALUE) && $has_snow) {
     $numshifts = -((($LIMITS['spp'] * $CASH_VALUE) - $numshifts) / $CASH_VALUE);
-    print "<td style='color:green'>GOOD + $numshifts extra";
+    print "<td style='color:blue'>GOOD + $numshifts extra";
   } else {
     $numshifts = (($LIMITS['spp'] * $CASH_VALUE) - $numshifts) / $CASH_VALUE;
     print "<td style='color:red'>";
@@ -190,7 +190,7 @@ foreach ($scouts as $scoutid => $scout) {
     print "<td style='color:green'>GOOD";
   } else if ($numshifts > $LIMITS['sps']) {
     $numshifts = $numshifts - $LIMITS['sps'];
-    print "<td style='color:red'>GOOD: $numshifts extra";
+    print "<td style='color:blue'>GOOD + $numshifts extra";
   } else {
     $numshifts = $LIMITS['sps'] - $numshifts;
     print "<td style='color:red'>NEEDS " . $numshifts;
