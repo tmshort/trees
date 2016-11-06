@@ -23,6 +23,7 @@ include "Classes/svcpie/svcpie.php";
 <li><a href="bydate.php">Schedule by date</a></li>
 <li><a href="byfamily.php">Schedule by person</a></li>
 <li><a href="nag.php">Nag Report</a></li>
+<li><a href="everyone.php">Family Status</a></li>
 <li><a href="bydate2.php">Master schedule format</a></li>
 </ul>
 <li style="font-weight:bold">Actions</li>
