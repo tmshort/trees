@@ -91,7 +91,6 @@ foreach my $key (sort { $a <=> $b } keys %shifts) {
 my $wun = new WWW::Wunderground::API(location => "Sudbury, MA",
 				     api_key => "7127a178c5563872",
 				     auto_api => 1);
-
 my $forecast1 = $wun->forecast10day->txt_forecast->forecastday->[2]{title};
 my $forecast2 = $wun->forecast10day->txt_forecast->forecastday->[2]{fcttext};
 my $forecast3 = $wun->forecast10day->txt_forecast->forecastday->[3]{title};
@@ -118,7 +117,11 @@ $body .= "We ask the following:\n\n";
 $body .= "1. Please remember to park in the back of the lot. Do not park in spaces reserved for our customers, Sullivan Tire's customers, nor Interstate Oil.\n";
 $body .= "2. Please be on time.\n";
 $body .= "3. Please dress appropriately; Scout shirts if possible, but dress for the weather!\n";
-$body .= "* $forecast1: $forecast2\n* $forecast3: $forecast4\n";
+if (defined $forecast1 && $forecast1 ne "") {
+    $body .= "* $forecast1: $forecast2\n* $forecast3: $forecast4\n";
+} else {
+    $body .= "* Sorry, unable to get forecast!\n";
+}
 $body .= "4. Please visit https://www.treesale.christmas/instructions.php for information on your shift.\n";
 $body .= "\n";
 $body .= $output;
@@ -137,8 +140,11 @@ if ($debug == 1) {
     print "From: $from\n";
     print "Subject: $subject\n";
     print "Message: $body\n";
+} else {
+    print "STEP 8\n";
+    sendmail(%message) or die $Mail::Sendmail::error;
+    print "STEP 9\n";
+    print "\nLog: " . $Mail::Sendmail::log . "\n";
+    print "To: $to\n";
+    print "Body:\n$body\n";
 }
-sendmail(%message) or die $Mail::Sendmail::error;
-print "\nLog: " . $Mail::Sendmail::log . "\n";
-print "To: $to\n";
-print "Body:\n$body\n";
