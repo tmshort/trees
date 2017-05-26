@@ -11,7 +11,7 @@ my $db="trees";
 my $user="root";
 my $pass="Troop60Trees";
 my $host="localhost";
-my $scheduler="Todd Short";
+my $scheduler="Melinda Manente";
 my $debug = 0;
 
 my $dbh = DBI->connect("DBI:mysql:$db:$host", $user, $pass);

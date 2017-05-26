@@ -17,7 +17,7 @@ function send_the_email($pname, $password, $email, $dirname, $orig_email = "")
 
   $boundary = "TreesTreesBeautifulTrees";
 
-  $headers  = 'From: Todd Short <troop60trees@gmail.com>' . "\r\n";
+  $headers  = 'From: Melinda Manente <troop60trees@gmail.com>' . "\r\n";
   $headers .= "MIME-Version: 1.0\r\n";
   $headers .= "Content-Type: multipart/alternative;boundary=$boundary\r\n";
 
@@ -99,11 +99,9 @@ function send_the_email($pname, $password, $email, $dirname, $orig_email = "")
  
   $message .= "<p>If you have any questions, please don't hesitate to email me.</p>\n";
   
-  $message .= "<p>Thank you,</p>\n<p>Todd Short<br/><a href=\"mailto:$myemail\">$myemail</a></p>\n";
+  $message .= "<p>Thank you,</p>\n<p>Melinda Manente<br/><a href=\"mailto:$myemail\">$myemail</a></p>\n";
   $message .= "<p>This email was sent to $email</p>\n";
   $message .= "\r\n\r\n--$boundary--\r\n\r\n";
-
-  //$email = "todd.short@me.com"; // TODO remove this!!
 
   $ret = mail($email, $subject, $message, $headers);
   if ($ret === FALSE) {
