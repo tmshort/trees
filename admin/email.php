@@ -20,17 +20,21 @@ include "email_user.php";
 
 $n = 0;
 $START = "now";
+$MYNAME = $DEFNAME;
+$MYEMAIL = $DEFEMAIL;
 $pathparts = pathinfo($_SERVER['SCRIPT_NAME']);
 $pathparts = pathinfo($pathparts['dirname']);
 $dirname = $pathparts['dirname'];
 
 $mysqli = db_connect();
 if ($mysqli !== FALSE) {
-  $query = "SELECT opt_start FROM options";
+  $query = "SELECT opt_start, opt_name, opt_email FROM options";
   if (($result = $mysqli->query($query)) !== FALSE) {
     while ($row = $result->fetch_array()) {
       $ts = strtotime($row['opt_start']);
       $START = strftime("%l:%M %p %A, %B %e, %Y", $ts);
+      $MYNAME = $row['opt_name'];
+      $MYEMAIL = $row['opt_email'];
     }
     $result->close();
   }

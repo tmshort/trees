@@ -6,15 +6,29 @@ use Time::ParseDate;
 use Mail::Sendmail;
 use WWW::Wunderground::API;
 
+my $ADMINUSER = "";
+my $ADMINPASS = "";
+my $MYSQL_HOST = "";
+my $MYSQL_USER = "";
+my $MYSQL_PASS = "";
+my $DEFNAME = "";
+my $DEFEMAIL = "";
+
+do "../../config.inc";
+
+print "ADMINUSER = $ADMINUSER\n";
+print "ADMINPASS = $ADMINPASS\n";
+print "MYSQL_HOST = $MYSQL_HOST\n";
+print "MYSQL_USER = $MYSQL_USER\n";
+print "MYSQL_PASS = $MYSQL_PASS\n";
+print "DEFNAME = $DEFNAME\n";
+print "DEFEMAIL = $DEFEMAIL\n";
+
 my $db="trees";
 
-my $user="root";
-my $pass="Troop60Trees";
-my $host="localhost";
-my $scheduler="Melinda Manente";
 my $debug = 0;
 
-my $dbh = DBI->connect("DBI:mysql:$db:$host", $user, $pass);
+my $dbh = DBI->connect("DBI:mysql:$db:$MYSQL_HOST", $MYSQL_USER, $MYSQL_PASS);
 
 my @tomorrow = localtime(time() + 24 * 60 * 60);
 my $start = strftime("%F 00:00:01", @tomorrow);
@@ -125,9 +139,9 @@ if (defined $forecast1 && $forecast1 ne "") {
 $body .= "4. Please visit https://www.treesale.christmas/instructions.php for information on your shift.\n";
 $body .= "\n";
 $body .= $output;
-$body .= "Thank you for supporting Troop 60!\n\n-$scheduler\n-Troop 60 Scheduler\n";
+$body .= "Thank you for supporting Troop 60!\n\n-$MYNAME\n-Troop 60 Scheduler\n";
 
-my $from = $scheduler . ' <troop60trees@gmail.com>';
+my $from = "$MYNAME <$MYEMAIL>";
 my %message = (
     To      => $to,
     From    => $from,

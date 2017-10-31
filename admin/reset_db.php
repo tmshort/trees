@@ -76,12 +76,12 @@ if ($_POST["force"]) {
     exit;
   }
 
-  if ($mysqli->query("CREATE TABLE options (unused_index MEDIUMINT NOT NULL AUTO_INCREMENT, opt_continue TINYINT NOT NULL, opt_addonly TINYINT NOT NULL, opt_disabled TINYINT NOT NULL, opt_cash TINYINT NOT NULL, opt_nag TINYINT NOT NULL, opt_start DATETIME NOT NULL, opt_min TINYINT NOT NULL, opt_min_p TINYINT NOT NULL, opt_min_s TINYINT NOT NULL, PRIMARY KEY(unused_index));") === FALSE) {
+  if ($mysqli->query("CREATE TABLE options (unused_index MEDIUMINT NOT NULL AUTO_INCREMENT, opt_continue TINYINT NOT NULL, opt_addonly TINYINT NOT NULL, opt_disabled TINYINT NOT NULL, opt_cash TINYINT NOT NULL, opt_nag TINYINT NOT NULL, opt_start DATETIME NOT NULL, opt_min TINYINT NOT NULL, opt_min_p TINYINT NOT NULL, opt_min_s TINYINT NOT NULL, opt_name VARCHAR(64), opt_email VARCHAR(64), PRIMARY KEY(unused_index));") === FALSE) {
     print "<b>Failed to create table options " . $mysqli->error . "</b>\n";
     exit;
   }
 
-  if ($mysqli->query("INSERT INTO options (opt_continue, opt_addonly, opt_disabled, opt_cash, opt_nag, opt_start, opt_min, opt_min_p, opt_min_s) VALUES (1, 0, 1, 3, 1, '2020-01-01 10:00:00', 0, 0, 0);") === FALSE) {
+  if ($mysqli->query("INSERT INTO options (opt_continue, opt_addonly, opt_disabled, opt_cash, opt_nag, opt_start, opt_min, opt_min_p, opt_min_s, opt_name, opt_email) VALUES (1, 0, 1, 3, 1, '2020-01-01 10:00:00', 0, 0, 0, '$DEFNAME', '$DEFEMAIL');") === FALSE) {
     print "<b>Failed to create table options " . $mysqli->error . "</b>\n";
     exit;
   }

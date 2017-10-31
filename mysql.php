@@ -1,5 +1,5 @@
 <?php
-require_once "config.inc";
+require_once "load_config.inc";
 
 /* Sets up mysql */
 $MYSQL_LOCK = "SELECT GET_LOCK('update', 10)";

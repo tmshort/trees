@@ -69,6 +69,15 @@ if (isset($_POST['start'])) {
   $ts = strtotime($_POST['start']);
   $opt_start = date("Y-m-d H:i:s", $ts);
 }
+$opt_name = $DEFNAME;
+if (isset($_POST['name'])) {
+  $opt_name = $mysqli->escape_string($_POST['name']);
+}
+$opt_email = $DEFEMAIL;
+if (isset($_POST['email'])) {
+  $opt_email = $mysqli->escape_string($_POST['email']);
+}
+
 
 $query = "UPDATE options SET ";
 $query .= "opt_continue = " . $opt_continue;
@@ -80,6 +89,8 @@ $query .= ", opt_min_s = " . $opt_min_s;
 $query .= ", opt_min_p = " . $opt_min_p;
 $query .= ", opt_nag = " . $opt_nag;
 $query .= ", opt_start = '$opt_start'";
+$query .= ", opt_name = '$opt_name'";
+$query .= ", opt_email = '$opt_email'";
 $query .= ";";
 
 //print "Query: $query";

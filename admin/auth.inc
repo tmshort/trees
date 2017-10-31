@@ -1,5 +1,5 @@
 <?php
-require_once "../config.inc";
+require_once "../load_config.inc";
 
 if (!isset($_SERVER['PHP_AUTH_USER'])) {
   header('WWW-Authenticate: Basic realm="Trees"');

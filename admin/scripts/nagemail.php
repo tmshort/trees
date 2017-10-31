@@ -13,6 +13,8 @@ if ($mysqli === FALSE) {
 }
 $disabled = 0;
 $CASH_VALUE = 3;
+$MYNAME = $DEFNAME;
+$MYEMAIL = $DEFEMAIL;
 $query = "SELECT * FROM options";
 if (($result = $mysqli->query($query)) !== FALSE) {
   while ($arr = $result->fetch_array()) {
@@ -20,6 +22,8 @@ if (($result = $mysqli->query($query)) !== FALSE) {
     if ($arr['opt_nag'] == 0) {
       $disabled = 1;
     }
+    $MYNAME = $arr['opt_name'];
+    $MYEMAIL = $arr['opt_email'];
   }
   $result->close();
 }
@@ -206,12 +210,10 @@ function send_the_email($pname, $password, $email, $dirname, $snow_state, $paren
 
   $subject = "Please complete your Tree Scheduling";
 
-  $myemail = 'troop60trees@gmail.com';
-
   $boundary = "TreesTreesBeautifulTrees";
 
-  $headers  = 'From: Melinda Manente <troop60trees@gmail.com>' . "\r\n";
-  $headers .= 'Bcc: manentefamily@gmail.com' . "\r\n";
+  $headers  = "From: $MYNAME <$MYEMAIL>\r\n";
+#  $headers .= 'Bcc: someother@email.com' . "\r\n";
   $headers .= "MIME-Version: 1.0\r\n";
   $headers .= "Content-Type: multipart/alternative;boundary=$boundary\r\n";
 
@@ -264,7 +266,7 @@ function send_the_email($pname, $password, $email, $dirname, $snow_state, $paren
 
   $message .= "<p>If you have any questions, please don't hesitate to email me.</p>\n";
   
-  $message .= "<p>Thank you,</p>\n<p>Melinda Manente<br/><a href=\"mailto:$myemail\">$myemail</a></p>\n";
+  $message .= "<p>Thank you,</p>\n<p>$MYNAME<br/><a href=\"mailto:$MYEMAIL\">$MYEMAIL</a></p>\n";
   $message .= "<p>This email was sent to $email</p>\n";
   $message .= "\r\n\r\n--$boundary--\r\n\r\n";
 

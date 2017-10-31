@@ -75,6 +75,8 @@ if ($mysqli !== FALSE) {
       print "<label for='Min'>Min shifts per person</label><input type='text' name='min' value='" . $row['opt_min'] . "'> (default=0 no-effect)<br/>\n";
       print "<label for='Min'>Min shifts per scout</label><input type='text' name='min_s' value='" . $row['opt_min_s'] . "'> (default=0 no-effect)<br/>\n";
       print "<label for='Min'>Min shifts per parent</label><input type='text' name='min_p' value='" . $row['opt_min_p'] . "'> (default=0 no-effect)<br/>\n";
+      print "<label for='Name'>Name</label><input type='text' name='name' value='" . $row['opt_name'] . "'> (Your name)<br/>\n";
+      print "<label for='Email'>Email</label><input type='text' name='email' value='" . $row['opt_email'] . "'> (Your email)<br/>\n";
     }
   }
 }
