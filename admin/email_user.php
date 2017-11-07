@@ -63,8 +63,8 @@ function send_the_email($pname, $password, $email, $dirname, $orig_email = "")
   
   $message .= "<ul><li><u>Opening</u> the tree site involves arriving 15 minutes before the first shift of the day and completing a checklist to set ";
   $message .= "up the site. You will also be required to bring the starting cash to the site.</li><li><u>Closing</u> the site at the end of the sales ";
-  $message .= "day involves a checklist to secure the site and dropping off the money collected that day to the treasurer. You should ";
-  $message .= "arrive 15 minutes before closing. The treasurer for the Tree Sale is Dan DiFelice, from our Troop. I will send separate ";
+  $message .= "day involves a checklist to secure the site and collecting the money collected that day. You should ";
+  $message .= "arrive 15 minutes before closing. I will send separate ";
   $message .= "instructions for this.</li><li>There are only (" . $stats['cash_shifts'] . ") of these shifts.</li></ul>";
 
   $message .= "<p><b>On-Call Snow Removal shifts:</b> If there has been a big snow on one of the days our Troop has the first selling shift of the ";

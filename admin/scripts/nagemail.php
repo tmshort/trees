@@ -205,7 +205,7 @@ foreach ($parents as $parentid => $parent) {
 
 function send_the_email($pname, $password, $email, $dirname, $snow_state, $parent_state, $scout_state, $total_state)
 {
-  global $START;
+  global $START, $MYNAME, $MYEMAIL;
   $stats = analyze();
 
   $subject = "Please complete your Tree Scheduling";
@@ -247,7 +247,7 @@ function send_the_email($pname, $password, $email, $dirname, $snow_state, $paren
 
   $message .= "<p><b>If you cannot fulfill your shift</b>, it is your responsibility to find a replacement or a trade. The website does not limit ";
   $message .= "the number of shifts you may sign up for; but you cannot remove a shift. If possible, please sign up for another shift. ";
-  $message .= " If you need a shift traded, removed or modified; please contact <a href=\"mailto:$myemail\">me via email</a>.</p>\n";
+  $message .= " If you need a shift traded, removed or modified; please contact <a href=\"mailto:$MYEMAIL\">me via email</a>.</p>\n";
 
   $message .= "<p><b><i>Here is the link you need to complete your Tree Sale scheduling.</i></b></p>\n";
 
