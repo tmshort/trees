@@ -5,6 +5,8 @@ use POSIX;
 use Time::ParseDate;
 use Mail::Sendmail;
 use WWW::Wunderground::API;
+use File::Basename;
+use Cwd 'realpath';
 
 my $ADMINUSER = "";
 my $ADMINPASS = "";
@@ -14,7 +16,9 @@ my $MYSQL_PASS = "";
 my $DEFNAME = "";
 my $DEFEMAIL = "";
 
-do "../../config.inc";
+my $config_file = realpath(dirname($0) . "/../../config.inc");
+
+eval `cat $config_file`;
 
 print "ADMINUSER = $ADMINUSER\n";
 print "ADMINPASS = $ADMINPASS\n";
@@ -139,9 +143,9 @@ if (defined $forecast1 && $forecast1 ne "") {
 $body .= "4. Please visit https://www.treesale.christmas/instructions.php for information on your shift.\n";
 $body .= "\n";
 $body .= $output;
-$body .= "Thank you for supporting Troop 60!\n\n-$MYNAME\n-Troop 60 Scheduler\n";
+$body .= "Thank you for supporting Troop 60!\n\n-$DEFNAME\n-Troop 60 Scheduler\n";
 
-my $from = "$MYNAME <$MYEMAIL>";
+my $from = "$DEFNAME <$DEFEMAIL>";
 my %message = (
     To      => $to,
     From    => $from,
