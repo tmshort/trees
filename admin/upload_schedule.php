@@ -198,7 +198,8 @@ if (!empty($file) && !empty($cash)) {
     if ($shift > 0 && $unit == 60) {
 
       // This date could be in the past, all we care about is month/day
-      $date = $objWorksheet->getCell('B' . $row)->getValue();
+      // Doesn't really work, will fix later
+      $date = $objWorksheet->getCell('C' . $row)->getValue();
       $d = new DateTime('1899-12-30');
       $d->add(new DateInterval('P' . $date . 'D'));
       $date = $d->format("Y-m-d");
@@ -232,7 +233,7 @@ if (!empty($file) && !empty($cash)) {
         $sheetdata[$index]['desc'] = "Cash Midday";
         $sheetdata[$index]['adults'] = 1;
         $sheetdata[$index]['scouts'] = 0;
-        $sheetdata[$index+2]['type'] = $SHIFT_CASH;
+        $sheetdata[$index]['type'] = $SHIFT_CASH;
 	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "14:00";
         $totaladults++;
         $cashshifts++;
@@ -247,11 +248,11 @@ if (!empty($file) && !empty($cash)) {
       $sheetdata[$index]['scouts'] = 0;
       $sheetdata[$index]['type'] = $SHIFT_CASH;
       if ($tm['tm_wday'] == 0) { /* Sun */
-	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "18:30";
+	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "19:00";
       } else if ($tm['tm_wday'] == 6) { /* Sat */
 	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "21:00";
       } else { /* Mon-Fri */
-	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "21:00";
+	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "20:00";
       }
       $totaladults++;
       $cashshifts++;
@@ -260,7 +261,7 @@ if (!empty($file) && !empty($cash)) {
       // non-shift
       continue;
     }
-    print "<tr><td>#$shift</td><td>&nbsp;</td><td>$date</td><td>&nbsp;</td><td>&nbsp;</td><td>$type</td><td>adults=$adults</td><td>scouts=$scouts</td></tr>\n";
+    print "<tr><td>#$shift</td><td>&nbsp;</td><td>$date</td><td>&nbsp;</td><td>&nbsp;</td><td>CASH</td><td>adults=1</td><td>scouts=0</td></tr>\n";
   }
 }
 
