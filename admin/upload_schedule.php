@@ -61,6 +61,12 @@ $troopdata["shifts63"] = 0;
 $troopdata["setup63"] = 0;
 $troopdata["sales63"] = 0;
 
+$troopdata["adults65"] = 0;
+$troopdata["scouts65"] = 0;
+$troopdata["shifts65"] = 0;
+$troopdata["setup65"] = 0;
+$troopdata["sales65"] = 0;
+
 $troopdata["adults1776"] = 0;
 $troopdata["scouts1776"] = 0;
 $troopdata["shifts1776"] = 0;
@@ -91,14 +97,14 @@ if (!empty($file) && !empty($sheet)) {
   // C = Date
   // D = start time
   // E = end time
-  // F = Type 
+  // F = Type
   // G = # of adults
   // H = # of scouts
   // I = Troop/Crew
 
   $highestRow = $objWorksheet->getHighestRow();
   print "<tr><td colspan=5>ROWS = $highestRow</td></tr>\n";
-  
+
   for ($row = 1; $row <= $highestRow; $row++) {
     $shift = $objWorksheet->getCell('A' . $row)->getValue();
     $dow = $objWorksheet->getCell('B' . $row)->getValue();
@@ -170,51 +176,86 @@ if (!empty($file) && !empty($cash)) {
   $objWorksheet = $objPHPExcel->getActiveSheet();
 
   // Big assumption
+  // Changed 2019...
   // A = shift number
-  // B = Date
-  // C = Unit
-  // D = Opener 
-  // E = Phone
-  // F = Closer
-  // G = Phone
+  // B = Day
+  // C = Date
+  // D = Unit
+  // E = Opener
+  // F = Phone
+  // G = Mid Day (2pm) - weekends only
+  // H = Phone
+  // I = Closer
+  // J = Phone
 
-  // Need to create two rows for each row
+  // Need to create two or three rows for each row
 
   $highestRow = $objWorksheet->getHighestRow();
-  
+
   for ($row = 1; $row <= $highestRow; $row++) {
     $shift = $objWorksheet->getCell('A' . $row)->getValue();
-    $unit = $objWorksheet->getCell('C' . $row)->getValue();
+    $unit = $objWorksheet->getCell('D' . $row)->getValue();
     if ($shift > 0 && $unit == 60) {
-      $index+=2;
-      // sales
-      $sheetdata[$index]['shift'] = $shift + 1000;
-      $sheetdata[$index+1]['shift'] = $shift + 2000;
+
       // This date could be in the past, all we care about is month/day
       $date = $objWorksheet->getCell('B' . $row)->getValue();
       $d = new DateTime('1899-12-30');
       $d->add(new DateInterval('P' . $date . 'D'));
-      $date = $sheetdata[$index+1]['date'] = $sheetdata[$index]['date'] = $d->format("Y-m-d");
+      $date = $d->format("Y-m-d");
       $tm = localtime(strtotime($date), TRUE);
+
+      // Open, then mid, then close
+
+      // Open
+      $index++;
+      $sheetdata[$index]['shift'] = $shift + 1000;
+      $sheetdata[$index]['date'] = $date;
+      $sheetdata[$index]['desc'] = "Cash Open";
+      $sheetdata[$index]['adults'] = 1;
+      $sheetdata[$index]['scouts'] = 0;
+      $sheetdata[$index]['type'] = $SHIFT_CASH;
       if ($tm['tm_wday'] == 0) { /* Sun */
 	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "9:00";
-	$sheetdata[$index+1]['start'] = $sheetdata[$index+1]['end'] = "18:30";
       } else if ($tm['tm_wday'] == 6) { /* Sat */
 	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "9:00";
-	$sheetdata[$index+1]['start'] = $sheetdata[$index+1]['end'] = "21:00";
       } else { /* Mon-Fri */
 	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "15:30";
-	$sheetdata[$index+1]['start'] = $sheetdata[$index+1]['end'] = "21:00";
+      }
+      $totaladults++;
+      $cashshifts++;
+
+      // Midday
+      if ($objWorksheet->getCell('G' . $row)->getValue() == "Adult Name") {
+        $index++;
+        $sheetdata[$index]['shift'] = $shift + 2000;
+        $sheetdata[$index]['date'] = $date;
+        $sheetdata[$index]['desc'] = "Cash Midday";
+        $sheetdata[$index]['adults'] = 1;
+        $sheetdata[$index]['scouts'] = 0;
+        $sheetdata[$index+2]['type'] = $SHIFT_CASH;
+	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "14:00";
+        $totaladults++;
+        $cashshifts++;
       }
 
-      $type = $sheetdata[$index]['desc'] = "Cash Open";
-      $type = $sheetdata[$index+1]['desc'] = "Cash Close";
-      $adults = $sheetdata[$index+1]['adults'] = $sheetdata[$index]['adults'] = 1;
-      $scouts = $sheetdata[$index+1]['scouts'] = $sheetdata[$index]['scouts'] = 0;
-      $sheetdata[$index]['type'] = $SHIFT_CASH_OPEN;
-      $sheetdata[$index+1]['type'] = $SHIFT_CASH_CLOSE;
-      $totaladults += 2;
-      $cashshifts += 2;
+      // Close
+      $index++;
+      $sheetdata[$index]['shift'] = $shift + 3000;
+      $sheetdata[$index]['date'] = $date;
+      $sheetdata[$index]['desc'] = "Cash Close";
+      $sheetdata[$index]['adults'] = 1;
+      $sheetdata[$index]['scouts'] = 0;
+      $sheetdata[$index]['type'] = $SHIFT_CASH;
+      if ($tm['tm_wday'] == 0) { /* Sun */
+	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "18:30";
+      } else if ($tm['tm_wday'] == 6) { /* Sat */
+	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "21:00";
+      } else { /* Mon-Fri */
+	$sheetdata[$index]['start'] = $sheetdata[$index]['end'] = "21:00";
+      }
+      $totaladults++;
+      $cashshifts++;
+
     } else {
       // non-shift
       continue;
@@ -244,6 +285,7 @@ print "</pre>\n";
 print_stats(60, $troopdata);
 print_stats(61, $troopdata);
 print_stats(63, $troopdata);
+print_stats(65, $troopdata);
 print_stats(1776, $troopdata);
 $mysqli = db_connect();
 if ($mysqli === FALSE) {
@@ -257,7 +299,7 @@ foreach($sheetdata as $key => $value) {
   $query .= "'" . $value['desc'] . "', ";
   $query .= $value['scouts'] . ", ";
   $query .= $value['adults'] . ", ";
-  $query .= $value['type'] . ");"; 
+  $query .= $value['type'] . ");";
   print "QUERY: $query<br/>\n";
   if ($mysqli->query($query) === FALSE) {
     print "<b>Unable to add shift " . $value['shift'] . ": " . $mysqli->error . "</b><br/>\n";

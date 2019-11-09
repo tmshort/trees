@@ -1,8 +1,5 @@
 <?php
-
 $SHIFT_SETUP = 0;
-$SHIFT_CASH_OPEN = 1;
-$SHIFT_SALES = 2;
-$SHIFT_CASH_CLOSE = 3;
-
+$SHIFT_SALES = 1;
+$SHIFT_CASH = 2;
 ?>

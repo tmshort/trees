@@ -104,10 +104,7 @@ foreach ($shifts as $shiftid => $shift) {
   $numsnow = $LIMITS['fps'];
 
   $end_str = "";
-  if ($shift['type'] == $SHIFT_CASH_OPEN) {
-    $start_str = strftime("%a, %b %e, %l:%M%P", $shift['start-time']);
-    $is_cash = true;
-  } else if ($shift['type'] == $SHIFT_CASH_CLOSE) {
+  if ($shift['type'] == $SHIFT_CASH) {
     $start_str = strftime("%a, %b %e, %l:%M%P", $shift['start-time']);
     $is_cash = true;
   } else {

@@ -212,9 +212,7 @@ foreach ($parents as $parentid => $parent) {
      $theshifts = $parent_shifts[$parentid];
      foreach ($theshifts as $shiftid => $one) {
        $shift = $shifts[$shiftid];
-       if ($shift['type'] == $SHIFT_CASH_OPEN) {
-	 $numshifts++;
-       } else if ($shift['type'] == $SHIFT_CASH_CLOSE) {
+       if ($shift['type'] == $SHIFT_CASH) {
 	 $numshifts++;
        } else {
 	 $numshifts += $CASH_VALUE;

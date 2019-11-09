@@ -166,12 +166,10 @@ for ($thedate = $date_start; $thedate <= $date_end; $thedate += $ONEDAY)
     }
     if ($tmdate['tm_yday'] == $current_time['tm_yday'] && $tmdate['tm_year'] == $current_time['tm_year']) {
       print $style_start;
-      if ($current_shift['type'] == $SHIFT_CASH_OPEN) {
+      if ($current_shift['type'] == $SHIFT_CASH) {
 	$start_str = strftime("%l:%M%P", $current_shift['start-time']);
-	print "Cash Open $start_str";
-      } else if ($current_shift['type'] == $SHIFT_CASH_CLOSE) {
-	$start_str = strftime("%l:%M%P", $current_shift['start-time']);
-	print "Cash Close $start_str";
+        $desc = $current_shift['desc'];
+	print "$desc $start_str";
       } else {
 	$start_str = strftime("%l:%M%P-", $current_shift['start-time']);
 	$end_str = trim(strftime("%l:%M%P", $current_shift['end-time'])); // trim any leading %l space

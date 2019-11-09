@@ -491,10 +491,7 @@ foreach ($shifts as $shiftid => $shift) {
   $is_snow = false;
 
   $end_str = "";
-  if ($shift['type'] == $SHIFT_CASH_OPEN) {
-    $start_str = strftime("%a, %b %e, %l:%M%P", $shift['start-time']);
-    $is_cash = true;
-  } else if ($shift['type'] == $SHIFT_CASH_CLOSE) {
+  if ($shift['type'] == $SHIFT_CASH) {
     $start_str = strftime("%a, %b %e, %l:%M%P", $shift['start-time']);
     $is_cash = true;
   } else {
@@ -506,8 +503,7 @@ foreach ($shifts as $shiftid => $shift) {
   }
 
   // determine how to start the line
-  if ($shift['type'] == $SHIFT_CASH_CLOSE ||
-      $shift['type'] == $SHIFT_CASH_OPEN) {
+  if ($shift['type'] == $SHIFT_CASH) {
     $line = "<tr class='cash'>";
   } else if ($shift['type'] == $SHIFT_SETUP) {
     $line = "<tr class='setup'>";
@@ -628,8 +624,7 @@ foreach ($shifts as $shiftid => $shift) {
   if ($is_snow) {
     $line .= " (snow removal)";
   }
-  if ($shift['type'] == $SHIFT_CASH_OPEN ||
-      $shift['type'] == $SHIFT_CASH_CLOSE) {
+  if ($shift['type'] == $SHIFT_CASH) {
     $line .= " </i>-- counts as 1/$CASH_VALUE of a shift</i>";
   }
   if ($scouts > 0 && $scouts < $num_scouts) {

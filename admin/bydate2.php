@@ -112,10 +112,7 @@ foreach ($shifts as $shiftid => $shift) {
   $numsnow = $LIMITS['fps'];
 
   $end_str = "";
-  if ($shift['type'] == $SHIFT_CASH_OPEN) {
-    $start_str = strftime("%a, %b %e, %l:%M%P", $shift['start-time']);
-    $is_cash = true;
-  } else if ($shift['type'] == $SHIFT_CASH_CLOSE) {
+  if ($shift['type'] == $SHIFT_CASH) {
     $start_str = strftime("%a, %b %e, %l:%M%P", $shift['start-time']);
     $is_cash = true;
   } else {
@@ -174,7 +171,7 @@ foreach ($shifts as $shiftid => $shift) {
     continue;
   }
   $end_str = "";
-  if ($shift['type'] == $SHIFT_CASH_OPEN) {
+  if ($shift['desc'] == "Cash Open") {
     print "<tr><td>";
     print strftime("%m/%d", $shift['start-time']);
     print "</td><td>60</td><td>";
@@ -188,6 +185,14 @@ foreach ($shifts as $shiftid => $shift) {
     print "<td>";
     if (isset($parent_shifts[$shiftid+1000])) {
       $theparents = $parent_shifts[$shiftid+1000];
+      foreach ($theparents as $parentid => $parent) {
+        print $parents[$parentid]['pname'];
+      }
+    }
+    print "</td><td>XXX-XXX-XXXX</td>";
+    print "<td>";
+    if (isset($parent_shifts[$shiftid+2000])) {
+      $theparents = $parent_shifts[$shiftid+2000];
       foreach ($theparents as $parentid => $parent) {
         print $parents[$parentid]['pname'];
       }

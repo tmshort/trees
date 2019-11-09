@@ -239,8 +239,7 @@ if (isset($parent_shifts) || isset($scout_shifts) || isset($snow_shifts)) {
 $parent_count = 0;
 if (isset($parent_shifts)) {
   foreach ($parent_shifts as $shiftid => $one) {
-    if ($shifts[$shiftid]['type'] == $SHIFT_CASH_OPEN ||
-	$shifts[$shiftid]['type'] == $SHIFT_CASH_CLOSE) {
+    if ($shifts[$shiftid]['type'] == $SHIFT_CASH) {
       $parent_count++;
     } else {
       $parent_count += $CASH_VALUE;

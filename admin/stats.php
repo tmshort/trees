@@ -114,8 +114,7 @@ foreach ($parents as $parentid => $parent) {
 
 $total_shifts = 0;
 foreach ($shifts as $shiftid => $shift) {
-  if ($shift['type'] == $SHIFT_CASH_OPEN ||
-      $shift['type'] == $SHIFT_CASH_CLOSE) {
+  if ($shift['type'] == $SHIFT_CASH) {
     $total_shifts++;
   } else {
     $total_shifts += $CASH_VALUE * ($shift['scouts'] + $shift['adults']);
@@ -126,8 +125,7 @@ $total_shifts /= $CASH_VALUE;
 $filled_shifts = 0;
 foreach ($parent_shifts as $parentid => $shift_temp) {
   foreach ($shift_temp as $shiftid => $one) {
-    if ($shifts[$shiftid]['type'] == $SHIFT_CASH_OPEN ||
-        $shifts[$shiftid]['type'] == $SHIFT_CASH_CLOSE) {
+    if ($shifts[$shiftid]['type'] == $SHIFT_CASH) {
       $filled_shifts++;
     } else {
       $filled_shifts += $CASH_VALUE;
@@ -137,8 +135,7 @@ foreach ($parent_shifts as $parentid => $shift_temp) {
 
 foreach ($scout_shifts as $scouttid => $shift_temp) {
   foreach ($shift_temp as $shiftid => $one) {
-    if ($shifts[$shiftid]['type'] == $SHIFT_CASH_OPEN ||
-        $shifts[$shiftid]['type'] == $SHIFT_CASH_CLOSE) {
+    if ($shifts[$shiftid]['type'] == $SHIFT_CASH) {
       $filled_shifts++;
     } else {
       $filled_shifts += $CASH_VALUE;
